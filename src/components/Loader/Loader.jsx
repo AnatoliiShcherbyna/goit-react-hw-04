@@ -1,13 +1,17 @@
-import React from 'react';
-import { TailSpin } from 'react-loader-spinner';
-import styles from './Loader.module.css';
+import { RotatingLines } from 'react-loader-spinner';
 
-const Loader = () => {
-  return (
-    <div className={styles.loader}>
-      <TailSpin color="#0073e6" height={80} width={80} />
-    </div>
-  );
-};
+const Loader = () => (
+  <RotatingLines
+    visible={true}
+    height="96"
+    width="96"
+    color="blue"
+    strokeWidth="5"
+    animationDuration="0.75"
+    ariaLabel="rotating-lines-loading"
+    wrapperStyle={{}}
+    wrapperClass=""
+  />
+);
 
 export default Loader;

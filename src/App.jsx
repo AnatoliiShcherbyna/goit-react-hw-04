@@ -1,61 +1,64 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import toast, { Toaster } from 'react-hot-toast';
+import { useState, useEffect } from 'react';
 import SearchBar from './components/SearchBar/SearchBar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
-import Loader from './components/Loader/Loader';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
-import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './components/ImageModal/ImageModal';
-import './App.css';
-
-const API_URL = 'https://api.unsplash.com/search/photos';
-const ACCESS_KEY = 'ViO39Mn2xzED7Ft1F5gB4haKRWrh-yUwqfROBhPASKo';
+import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
+import Loader from './components/Loader/Loader';
+import axios from 'axios';
 
 const App = () => {
   const [query, setQuery] = useState('');
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const fetchImages = async (searchQuery, pageNumber) => {
-    setLoading(true);
+  const fetchImages = async () => {
+    setIsLoading(true);
+    setError(null);
     try {
-      const response = await axios.get(API_URL, {
-        params: {
-          query: searchQuery,
-          page: pageNumber,
-          per_page: 12,
-          client_id: ACCESS_KEY,
+      const response = await axios.get(
+        'https://api.unsplash.com/search/photos',
+        {
+          params: {
+            query,
+            page,
+            per_page: 12,
+            client_id: '0-OlYToWb_mWjMatR9beL-Y1uYwG58QiX6RrqPCWKNY',
+          },
         },
-      });
-      setImages((prevImages) => [...prevImages, ...response.data.results]);
-    } catch (err) {
-      setError('Failed to fetch images. Please try again later.');
+      );
+      if (response.data.results.length === 0) {
+        setError('Please enter text to search for images.');
+      } else {
+        setImages(prevImages => [...prevImages, ...response.data.results]);
+      }
+    } catch (error) {
+      setError('Error');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!query) return;
-    fetchImages(query, page);
+    if (query) {
+      fetchImages();
+    }
   }, [query, page]);
 
-  const handleSearch = (searchQuery) => {
-    setQuery(searchQuery);
-    setImages([]);
+  const handleSearchSubmit = newQuery => {
+    setQuery(newQuery);
     setPage(1);
-    setError(null);
+    setImages([]);
   };
 
   const handleLoadMore = () => {
-    setPage((prevPage) => prevPage + 1);
+    setPage(prevPage => prevPage + 1);
   };
 
-  const handleImageClick = (image) => {
+  const handleImageClick = image => {
     setSelectedImage(image);
   };
 
@@ -64,16 +67,17 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <Toaster />
-      <SearchBar onSubmit={handleSearch} />
+    <div>
+      <SearchBar onSubmit={handleSearchSubmit} />
       {error && <ErrorMessage message={error} />}
-      <ImageGallery images={images} onImageClick={handleImageClick} />
-      {loading && <Loader />}
-      {images.length > 0 && !loading && <LoadMoreBtn onClick={handleLoadMore} />}
+      <ImageGallery images={images} onClick={handleImageClick} />
+      {isLoading && <Loader />}
+      {images.length > 0 && !isLoading && (
+        <LoadMoreBtn onClick={handleLoadMore} />
+      )}
       {selectedImage && (
         <ImageModal
-          isOpen={Boolean(selectedImage)}
+          isOpen={!!selectedImage}
           onRequestClose={handleCloseModal}
           image={selectedImage}
         />
