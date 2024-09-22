@@ -1,6 +1,6 @@
 .imageGallery {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Встановлює 4 колонки */
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 16px;
   padding: 20px;
   list-style: none;
