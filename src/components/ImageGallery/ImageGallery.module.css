@@ -1,6 +1,6 @@
 .imageGallery {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr); /* Встановлює 4 колонки */
   grid-gap: 16px;
   padding: 20px;
   list-style: none;
@@ -15,5 +15,5 @@
 }
 
 .imageGalleryItem:hover {
-  transform: scale(1.07);
+  transform: scale(1.05);
 }

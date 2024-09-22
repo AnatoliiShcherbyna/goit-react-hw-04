@@ -1,9 +1,10 @@
 .searchBar {
   padding: 20px;
-  background-color: #2817ab;
+  background-color: #f8f8f8;
   border-bottom: 1px solid #ddd;
   display: flex;
-  justify-content: center;
+  justify-content: center; /* Центрує вміст по горизонталі */
+  /* Центрує вміст по вертикалі */
 }
 
 form {
@@ -29,9 +30,9 @@ input:focus {
 button {
   padding: 8px 16px;
   background-color: #0073e6;
-  color: lightblue;
+  color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
