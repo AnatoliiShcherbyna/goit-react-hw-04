@@ -14,7 +14,6 @@ const ImageGallery = ({ images, onImageClick }) => {
     </ul>
   );
 };
-
 ImageGallery.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
@@ -23,5 +22,4 @@ ImageGallery.propTypes = {
   ).isRequired,
   onImageClick: PropTypes.func.isRequired,
 };
-
 export default ImageGallery;
