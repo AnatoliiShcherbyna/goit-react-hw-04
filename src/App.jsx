@@ -41,7 +41,6 @@ const App = () => {
       setIsLoading(false);
     }
   };
-
   useEffect(() => {
     if (query) {
       fetchImages();
@@ -65,7 +64,6 @@ const App = () => {
   const handleCloseModal = () => {
     setSelectedImage(null);
   };
-
   return (
     <div>
       <SearchBar onSubmit={handleSearchSubmit} />
